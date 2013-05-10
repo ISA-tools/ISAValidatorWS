@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.isatools</groupId>
+    <artifactId>ISATABNanoWebService</artifactId>
+    <version>1.0</version>
+    <packaging>war</packaging>
+
+
+    <parent>
+        <groupId>com.sun.jersey.samples</groupId>
+        <artifactId>jersey-samples</artifactId>
+        <version>1.1.1-ea</version>
+    </parent>
+
+
+    <developers>
+        <developer>
+            <name>Eamonn Maguire</name>
+            <email>eamonnmag@gmail.com</email>
+            <organization>ISAteam</organization>
+            <organizationUrl>http://isa-tools.org</organizationUrl>
+        </developer>
+    </developers>
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>1.8</version>
+
+        </dependency>
+        
+         <dependency>
+            <groupId>com.sun.jersey.contribs</groupId>
+            <artifactId>jersey-multipart</artifactId>
+            <version>1.8</version>
+
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.jersey.test.framework</groupId>
+            <artifactId>jersey-test-framework</artifactId>
+            <version>1.1.1-ea</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>2.9.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>html-cleaner</groupId>
+            <artifactId>html-cleaner</artifactId>
+            <version>2.1</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
+        </dependency>
+
+           <dependency>
+        	<groupId>org.isatools</groupId>
+        	<artifactId>import_layer</artifactId>
+        	<version>1.6</version>
+        	<type>jar</type>
+        </dependency>
+        
+          <dependency>
+        	<groupId>org.isatools</groupId>
+        	<artifactId>ISAtabErrorReporter</artifactId>
+        	<version>0.4</version>
+        </dependency>
+        
+    </dependencies>
+    <build>
+        <finalName>ISATabNanoValidate</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xslt-maven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <id>update-gf-deps</id>
+                        <phase>package</phase>
+                        <!-- append to the packaging phase. -->
+                        <goals>
+                            <goal>transform</goal>
+                            <!-- goals == mojos -->
+                        </goals>
+                        <configuration>
+                            <xslFile>src/main/xslt/gf.xsl</xslFile>
+                            <srcDir>.</srcDir>
+                            <srcIncludes>pom.xml</srcIncludes>
+                            <destDir>target/gf-pom-file</destDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2-beta-5</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/assembly/src.xml</descriptor>
+                        <descriptor>src/main/assembly/glassfish.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <!-- this is used for inheritance merges -->
+                        <phase>package</phase>
+                        <!-- append to the packaging phase. -->
+                        <goals>
+                            <goal>attached</goal>
+                            <!-- goals == mojos -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net Repository for Maven</name>
+            <url>http://download.java.net/maven/2/</url>
+            <layout>default</layout>
+        </pluginRepository>
+        <pluginRepository>
+            <id>maven-repository.dev.java.net</id>
+            <name>Java.net Maven 1 Repository (legacy)</name>
+            <url>http://download.java.net/maven/1</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <repositories>
+
+        <repository>
+            <id>oerc</id>
+            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/groups/oerc/</url>
+        </repository>
+
+        <repository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net Repository for Maven</name>
+            <url>http://download.java.net/maven/2/</url>
+            <layout>default</layout>
+        </repository>
+
+        <repository>
+            <id>maven-repository.dev.java.net</id>
+            <name>Java.net Maven 1 Repository (legacy)</name>
+            <url>http://download.java.net/maven/1</url>
+            <layout>legacy</layout>
+        </repository>
+
+        <repository>
+            <id>glassfish-repository</id>
+            <name>Java.net Repository for Glassfish</name>
+            <url>http://download.java.net/maven/glassfish</url>
+        </repository>
+        
+          <repository>
+            <id>maven-repository</id>
+            <url>http://www.mvnrepository.com</url>
+        </repository>
+
+        <repository>
+            <id>mvn-search-repo</id>
+            <url>http://www2.caret.cam.ac.uk/maven2/</url>
+        </repository>
+
+    </repositories>
+
+
+</project>
